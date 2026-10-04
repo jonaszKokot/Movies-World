@@ -1,16 +1,17 @@
-# React + Vite
+# Movies World
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplikacja webowa do przeglądania i wyszukiwania filmów, integrująca się z zewnętrznym REST API (The Movie Database). Umożliwia dynamiczne filtrowanie bazy tytułów oraz wyświetlanie szczegółowych informacji o produkcjach.
 
-Currently, two official plugins are available:
+🔗 Wersja Live (Demo): https://jonaszkokot.github.io/Movies-World/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+🚀 Funkcjonalności
+- Dynamiczne wyszukiwanie i filtrowanie filmów w czasie rzeczywistym
+- Wyświetlanie szczegółów produkcji pobieranych asynchronicznie z TMDB API
+- Responsywny interfejs użytkownika (RWD)
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🛠️ Technologie
+- React
+- JavaScript
+- The Movie Database (TMDB) API
+- CSS / HTML5
+- GitHub Pages

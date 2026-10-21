@@ -1,0 +1,19 @@
+### Test rejestracji użytkownika (sukces)
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Jan",
+  "lastName": "Kowalski",
+  "email": "jan.kowalski@example.com",
+  "password": "mojeSuperTajneHaslo123"
+}
+
+### Test logowania użytkownika
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "jan.kowalski@example.com",
+  "password": "mojeSuperTajneHaslo123"
+}

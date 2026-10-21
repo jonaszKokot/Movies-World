@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import MovieCard from "../components/MovieCard";
-import MovieRow from "../components/MovieRow";
 
 const Home = ({ searchTitle }) => {
   const [movies, setMovies] = useState([]);
@@ -29,8 +28,8 @@ const Home = ({ searchTitle }) => {
   }, [searchTitle]);
 
   return (
-    <div className="p-10">
-      <h2 className="text-2xl font-black mb-10 text-center uppercase tracking-widest border-b-4 border-black block mx-auto w-fit">
+    <div className="p-10 px-30">
+      <h2 className="mx-auto mb-10 w-fit rounded-md bg-black px-5 py-2 text-3xl font-black uppercase italic text-white">
         {searchTitle ? `Wyniki dla: ${searchTitle}` : "Popularne teraz"}
       </h2>
 

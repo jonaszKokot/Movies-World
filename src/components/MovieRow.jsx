@@ -2,18 +2,13 @@ import { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import MovieCard from "./MovieCard";
 
-const CARD_WIDTH = 304;
-const GAP = 32;
-const VISIBLE_CARDS = 4;
-
 const MovieRow = ({ type, category }) => {
   const [movies, setMovies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const API_KEY = import.meta.env.VITE_TMDB_KEY;
 
   const titles = {
-    popular: "Popularne teraz",
+    popular: `Popularne ${type === "tv" ? "Seriale" : (type === "movie" ? "Filmy" : null)}`,
     upcoming: "Nadchodzące premiery",
     now_playing: "W kinach",
     top_rated: "Najlepiej oceniane",
@@ -40,7 +35,7 @@ const MovieRow = ({ type, category }) => {
 
   const nextSlide = () => {
     setCurrentIndex((index) =>
-      index < movies.length - VISIBLE_CARDS ? index + 1 : index
+      index < movies.length - 4 ? index + 1 : index
     );
   };
 
@@ -49,7 +44,7 @@ const MovieRow = ({ type, category }) => {
   };
 
   return (
-    <div className="my-10">
+    <div className="my-10 px-30">
       <h2 className="mx-auto mb-10 w-fit rounded-md bg-black px-5 py-2 text-3xl font-black uppercase italic text-white">
         {titles[category]}
       </h2>
@@ -62,8 +57,8 @@ const MovieRow = ({ type, category }) => {
           <FaChevronLeft size={20} />
         </button>
 
-        <div className="overflow-hidden"style={{width: `${VISIBLE_CARDS * CARD_WIDTH + (VISIBLE_CARDS - 1) * GAP}px`}}>
-          <div className="flex gap-8 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform" style={{transform: `translateX(-${currentIndex * (CARD_WIDTH + GAP)}px)`}}>
+        <div className="overflow-hidden"style={{width: `${4 * 304 + 3 * 32}px`}}>
+          <div className="flex gap-8 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform" style={{transform: `translateX(-${currentIndex * (304 + 32)}px)`}}>
             {movies.map((movie) => (
               <div
                 key={movie.id}
@@ -87,7 +82,7 @@ const MovieRow = ({ type, category }) => {
           </div>
         </div>
 
-        <button onClick={nextSlide} disabled={currentIndex >= movies.length - VISIBLE_CARDS} className="absolute -right-20 top-1/2 z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-black disabled:cursor-not-allowed disabled:opacity-30">
+        <button onClick={nextSlide} disabled={currentIndex >= movies.length - 4} className="absolute -right-20 top-1/2 z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-black disabled:cursor-not-allowed disabled:opacity-30">
           <FaChevronRight size={20} />
         </button>
       </div>

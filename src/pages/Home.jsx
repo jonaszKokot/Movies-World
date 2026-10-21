@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import MovieCard from "../components/MovieCard";
-import MovieRow from "../components/MovieRow";
 
 const Home = ({ searchTitle }) => {
   const [movies, setMovies] = useState([]);
@@ -10,9 +9,10 @@ const Home = ({ searchTitle }) => {
   useEffect(() => {
     const fetchMovies = async () => {
       setLoading(true);
-      const url = searchTitle.length > 2
-        ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=pl-PL&query=${searchTitle}`
-        : `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=pl-PL`;
+      const url =
+        searchTitle && searchTitle.length > 2
+          ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=pl-PL&query=${searchTitle}`
+          : `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=pl-PL`;
 
       try {
         const response = await fetch(url);
@@ -26,16 +26,18 @@ const Home = ({ searchTitle }) => {
     };
 
     fetchMovies();
-  }, [searchTitle]);
+  }, [searchTitle, API_KEY]);
 
   return (
-    <div className="p-10">
-      <h2 className="text-2xl font-black mb-10 text-center uppercase tracking-widest border-b-4 border-black block mx-auto w-fit">
+    <div className="p-10 px-30">
+      <h2 className="mx-auto mb-10 w-fit rounded-md bg-black px-5 py-2 text-3xl font-black uppercase italic text-white">
         {searchTitle ? `Wyniki dla: ${searchTitle}` : "Popularne teraz"}
       </h2>
 
       {loading ? (
-        <div className="text-center py-20 font-black text-4xl animate-bounce">Ładowanie...</div>
+        <div className="text-center py-20 font-black text-4xl animate-bounce">
+          Ładowanie...
+        </div>
       ) : (
         <div className="flex flex-wrap gap-10 justify-center">
           {movies.length > 0 ? (
@@ -43,13 +45,14 @@ const Home = ({ searchTitle }) => {
               <MovieCard
                 key={movie.id}
                 id={movie.id}
+                type="movie"
                 title={movie.title}
                 year={movie.release_date?.split("-")[0] || "N/A"}
                 rating={movie.vote_average?.toFixed(1) || "0.0"}
                 posterUrl={
-                  movie.poster_path 
-                  ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                  : "https://via.placeholder.com/500x750?text=Brak+Plakatu"
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                    : "https://via.placeholder.com/500x750?text=Brak+Plakatu"
                 }
               />
             ))

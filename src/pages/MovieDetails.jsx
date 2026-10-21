@@ -1,11 +1,59 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import axios from "axios";
+import { useWatchlist } from "../context/WatchListContext";
+import { Star } from "lucide-react"
 
 const MovieDetails = ({ type }) => {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const API_KEY = import.meta.env.VITE_TMDB_KEY;
+  const { watchlistIds, isWatchlistLoading, setFavoriteStatus } = useWatchlist();
+  const isFavorite = watchlistIds.includes(Number(id));
+
+  const handleToggleWatchlist = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Musisz być zalogowany, aby zarządzać listą!");
+      return;
+    }
+
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      if (isFavorite) {
+        await axios.delete(`http://localhost:5000/api/watchlist/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFavoriteStatus(id, false);
+      } else {
+        await axios.post(
+          "http://localhost:5000/api/watchlist",
+          { movieId: id },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setFavoriteStatus(id, true);
+      }
+    } catch (error) {
+      alert(
+        error.response?.data?.error || "Wystąpił problem z aktualizacją listy."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -47,6 +95,22 @@ const MovieDetails = ({ type }) => {
 
         <div className="flex flex-col gap-4">
           <h1 className="text-5xl font-black uppercase leading-none">{title}</h1>
+
+          <button
+            onClick={handleToggleWatchlist}
+            disabled={loading || isWatchlistLoading}
+            className="p-1 focus:outline-none group"
+            title={isFavorite ? "Usuń z listy" : "Dodaj do listy"}
+          >
+            <Star
+              className={`w-6 h-6 transition-all group-hover:scale-110 origin-center ${
+                isFavorite
+                  ? "fill-yellow-400 text-yellow-500"
+                  : "text-zinc-400 group-hover:text-zinc-600"
+              }`}
+            />
+          </button>
+          
           <div className="flex flex-wrap gap-4 font-bold text-xl">
             <span className="bg-pink-500 text-white px-3 py-1 border-2 border-black italic">{date}</span>
             <span className="bg-blue-400 text-white px-3 py-1 border-2 border-black">★ {data.vote_average?.toFixed(1)}</span>

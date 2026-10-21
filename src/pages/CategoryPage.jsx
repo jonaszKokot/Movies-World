@@ -25,8 +25,8 @@ const CategoryPage = ({ type, endpoint = "popular", title }) => {
   }, [type, endpoint, API_KEY]);
 
   return (
-    <div className="p-10">
-      <h2 className="text-4xl font-black mb-12 text-center uppercase tracking-widest border-b-8 border-black block mx-auto w-fit px-4">
+    <div className="p-10 px-30">
+      <h2 className="mx-auto mb-10 w-fit rounded-md bg-black px-5 py-2 text-3xl font-black uppercase italic text-white">
         {title}
       </h2>
 
